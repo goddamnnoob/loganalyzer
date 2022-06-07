@@ -1,7 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"github.com/goddamnnoob/loganalyzer/app"
+)
 
 func main() {
-	fmt.Println("Hello World")
+	str := "/Users/gowtham/Projects/loganalyzer"
+	app.UniqueExceptions(&str)
 }
