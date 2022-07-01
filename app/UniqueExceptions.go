@@ -42,7 +42,7 @@ func getFilesListInFolder(path *string) *[]string {
 }
 
 func getServerOutFiles(filesInDirectory *[]string) *[]string {
-	serverOut := "serverout"
+	serverOut := "serverOut_"
 	var serverOutFiles []string
 	for _, f := range *filesInDirectory {
 		if strings.Contains(f, serverOut) {
