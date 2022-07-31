@@ -3,15 +3,15 @@ package conf
 import "testing"
 
 func TestGetConfiguration(t *testing.T) {
-	got := GetConfiguration()
-	serverOut = Serverout{
-		name: "G",
+	got, _ := GetConfiguration()
+	serverOut := ServerOut{
+		Name: "serverOut_",
 	}
 	want := &Config{
-		Logsfolderpath: "/lol",
-		serverOut,
+		Logsfolderpath: "../",
+		ServerOut:      serverOut,
 	}
-	if got != want {
+	if *got != *want {
 		t.Errorf("got %q, wanted %q", got, want)
 	}
 }

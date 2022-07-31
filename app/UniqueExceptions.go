@@ -8,6 +8,7 @@ import (
 
 func UniqueExceptions(logsFolderPath *string) {
 	//serverOutFilesCount := 0
+
 	if !isValidPath(logsFolderPath) {
 		fmt.Println("Invalid Logs Folder Path specified !!!!!!")
 		return
@@ -19,6 +20,9 @@ func UniqueExceptions(logsFolderPath *string) {
 	filesInDirectory := getFilesListInFolder(logsFolderPath)
 	serverOutFilesInDirectory := getServerOutFiles(filesInDirectory)
 	fmt.Println(len(*serverOutFilesInDirectory))
+}
+
+func parseServerOut(filePath *string) (serverOutExceptions *Exception) {
 }
 
 func isValidPath(path *string) bool {

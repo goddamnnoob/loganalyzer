@@ -1,8 +1,10 @@
 package conf
 
+type ServerOut struct {
+	Name string `json:"name"`
+}
+
 type Config struct {
-	ServerOut struct {
-		name string `name:"name"`
-	} `json:"serverout"`
+	ServerOut      `json:"serverout"`
 	Logsfolderpath string `json:"logsfolderpath"`
 }
