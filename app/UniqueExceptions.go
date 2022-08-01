@@ -4,11 +4,13 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/goddamnnoob/loganalyzer/exception"
 )
 
 func UniqueExceptions(logsFolderPath *string) {
 	//serverOutFilesCount := 0
-
+	var uniqueExceptions []exception.Exception
 	if !isValidPath(logsFolderPath) {
 		fmt.Println("Invalid Logs Folder Path specified !!!!!!")
 		return
@@ -19,10 +21,13 @@ func UniqueExceptions(logsFolderPath *string) {
 	}
 	filesInDirectory := getFilesListInFolder(logsFolderPath)
 	serverOutFilesInDirectory := getServerOutFiles(filesInDirectory)
-	fmt.Println(len(*serverOutFilesInDirectory))
-}
+	for _, serverOutFilePath := range serverOutFilesInDirectory {
+		batchUniqueExceptions, err := parseServerOut(&serverOutFilePath)
+		if err != nil {
+			uniqueExceptions = append(uniqueExceptions, batchUniqueExceptions...)
+		}
+	}
 
-func parseServerOut(filePath *string) (serverOutExceptions *Exception) {
 }
 
 func isValidPath(path *string) bool {
@@ -35,23 +40,23 @@ func isValidDirectory(path *string) bool {
 	return dir.IsDir()
 }
 
-func getFilesListInFolder(path *string) *[]string {
+func getFilesListInFolder(path *string) []string {
 	var filesInDirectory []string
 	file, _ := os.Open(*path)
 	filesList, _ := file.Readdir(0)
 	for _, f := range filesList {
 		filesInDirectory = append(filesInDirectory, f.Name())
 	}
-	return &filesInDirectory
+	return filesInDirectory
 }
 
-func getServerOutFiles(filesInDirectory *[]string) *[]string {
+func getServerOutFiles(filesInDirectory []string) []string {
 	serverOut := "serverOut_"
 	var serverOutFiles []string
-	for _, f := range *filesInDirectory {
+	for _, f := range filesInDirectory {
 		if strings.Contains(f, serverOut) {
 			serverOutFiles = append(serverOutFiles, f)
 		}
 	}
-	return &serverOutFiles
+	return serverOutFiles
 }

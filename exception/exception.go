@@ -5,4 +5,5 @@ type Exception struct {
 	FirstLine    string `json:"firstline"`
 	First10Lines string `json:"first10lines"`
 	Time         string `json:"time"`
+	Count        int    `json:"count"`
 }
