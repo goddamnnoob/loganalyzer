@@ -8,7 +8,7 @@ import (
 	"github.com/goddamnnoob/loganalyzer/exception"
 )
 
-func UniqueExceptions(logsFolderPath *string) {
+func UniqueExceptions(logsFolderPath string) {
 	//serverOutFilesCount := 0
 	var uniqueExceptions []exception.Exception
 	if !isValidPath(logsFolderPath) {
@@ -21,7 +21,9 @@ func UniqueExceptions(logsFolderPath *string) {
 	}
 	filesInDirectory := getFilesListInFolder(logsFolderPath)
 	serverOutFilesInDirectory := getServerOutFiles(filesInDirectory)
+	fmt.Println(len(serverOutFilesInDirectory))
 	for _, serverOutFilePath := range serverOutFilesInDirectory {
+		fmt.Println(serverOutFilePath)
 		batchUniqueExceptions, err := parseServerOut(&serverOutFilePath)
 		if err != nil {
 			uniqueExceptions = append(uniqueExceptions, batchUniqueExceptions...)
@@ -30,19 +32,19 @@ func UniqueExceptions(logsFolderPath *string) {
 
 }
 
-func isValidPath(path *string) bool {
-	_, err := os.Open(*path)
+func isValidPath(path string) bool {
+	_, err := os.Open(path)
 	return err == nil
 }
 
-func isValidDirectory(path *string) bool {
-	dir, _ := os.Stat(*path)
+func isValidDirectory(path string) bool {
+	dir, _ := os.Stat(path)
 	return dir.IsDir()
 }
 
-func getFilesListInFolder(path *string) []string {
+func getFilesListInFolder(path string) []string {
 	var filesInDirectory []string
-	file, _ := os.Open(*path)
+	file, _ := os.Open(path)
 	filesList, _ := file.Readdir(0)
 	for _, f := range filesList {
 		filesInDirectory = append(filesInDirectory, f.Name())

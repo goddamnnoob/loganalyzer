@@ -5,6 +5,8 @@ import (
 )
 
 func main() {
-	str := "/Users/gowtham/Projects/loganalyzer"
-	app.UniqueExceptions(&str)
+	config, err := GetConfiguration()
+	if err != nil {
+		app.UniqueExceptions(config.Logsfolderpath)
+	}
 }

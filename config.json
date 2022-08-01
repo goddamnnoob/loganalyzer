@@ -2,5 +2,5 @@
     "ServerOut":{
         "name":"serverOut_"
     },
-    "logsfolderpath":"../"
+    "logsfolderpath":"./LOGS/"
 }
