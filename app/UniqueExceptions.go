@@ -12,7 +12,7 @@ func UniqueExceptions(logsFolderPath string) {
 	//serverOutFilesCount := 0
 	var uniqueExceptions []exception.Exception
 	if !isValidPath(logsFolderPath) {
-		fmt.Println("Invalid Logs Folder Path specified !!!!!!")
+		fmt.Println("Invalid Logs Folder Path specified !!!!!! LogsFolderPath:" + logsFolderPath)
 		return
 	}
 	if !isValidDirectory(logsFolderPath) {

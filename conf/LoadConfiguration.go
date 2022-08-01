@@ -5,9 +5,9 @@ import (
 	"os"
 )
 
-func GetConfiguration() (*Config, *error) {
+func GetConfiguration(confFilePath string) (*Config, *error) {
 	var config Config
-	configFile, err := os.Open("../config.json")
+	configFile, err := os.Open(confFilePath)
 	if err != nil {
 		return &config, &err
 	}

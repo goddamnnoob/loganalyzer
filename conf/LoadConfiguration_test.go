@@ -3,12 +3,12 @@ package conf
 import "testing"
 
 func TestGetConfiguration(t *testing.T) {
-	got, _ := GetConfiguration()
+	got, _ := GetConfiguration("../config.json")
 	serverOut := ServerOut{
 		Name: "serverOut_",
 	}
 	want := &Config{
-		Logsfolderpath: "../",
+		Logsfolderpath: "./LOGS/",
 		ServerOut:      serverOut,
 	}
 	if *got != *want {
