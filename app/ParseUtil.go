@@ -15,6 +15,7 @@ func parseServerOut(filePath *string) ([]exception.Exception, *error) {
 	file, e := os.Open(*filePath)
 	lineIndex := 1
 	if e != nil {
+		fmt.Println(e)
 		return nil, &e
 	}
 	defer file.Close()
@@ -41,11 +42,9 @@ func exceptionPostProcessor(scanner *bufio.Scanner) *exception.Exception {
 	exception.FirstLine = firstLine
 	exception.Time = time
 	exception.Name = name
-	fmt.Printf("time :%s", time)
-	fmt.Printf(" FirstLine :%s", firstLine)
 	var first10Lines string
 	for i := 0; i < 10; i++ {
-		first10Lines += scanner.Text()
+		first10Lines += scanner.Text() + "\n"
 		scanner.Scan()
 	}
 	exception.First10Lines = first10Lines

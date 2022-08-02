@@ -3,25 +3,30 @@ package app
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 
+	"github.com/goddamnnoob/loganalyzer/conf"
 	"github.com/goddamnnoob/loganalyzer/exception"
 )
 
-func UniqueExceptions(logsFolderPath string) {
-	//serverOutFilesCount := 0
+func UniqueExceptions(config *conf.Config) []exception.Exception {
 	var uniqueExceptions []exception.Exception
+	logsFolderPath, e := filepath.Abs(config.Logsfolderpath)
+	if e != nil {
+		fmt.Println(e)
+		return nil
+	}
 	if !isValidPath(logsFolderPath) {
 		fmt.Println("Invalid Logs Folder Path specified !!!!!! LogsFolderPath:" + logsFolderPath)
-		return
+		return nil
 	}
 	if !isValidDirectory(logsFolderPath) {
 		fmt.Println("Logs Folder Path is not a Directory !!!!!!")
-		return
+		return nil
 	}
 	filesInDirectory := getFilesListInFolder(logsFolderPath)
 	serverOutFilesInDirectory := getServerOutFiles(filesInDirectory)
-	fmt.Println(len(serverOutFilesInDirectory))
 	for _, serverOutFilePath := range serverOutFilesInDirectory {
 		fmt.Println(serverOutFilePath)
 		batchUniqueExceptions, err := parseServerOut(&serverOutFilePath)
@@ -29,11 +34,12 @@ func UniqueExceptions(logsFolderPath string) {
 			uniqueExceptions = append(uniqueExceptions, batchUniqueExceptions...)
 		}
 	}
-
+	return uniqueExceptions
 }
 
 func isValidPath(path string) bool {
-	_, err := os.Open(path)
+	file, err := os.Open(path)
+	defer file.Close()
 	return err == nil
 }
 
@@ -47,8 +53,9 @@ func getFilesListInFolder(path string) []string {
 	file, _ := os.Open(path)
 	filesList, _ := file.Readdir(0)
 	for _, f := range filesList {
-		filesInDirectory = append(filesInDirectory, f.Name())
+		filesInDirectory = append(filesInDirectory, filepath.Join(path, f.Name()))
 	}
+	defer file.Close()
 	return filesInDirectory
 }
 

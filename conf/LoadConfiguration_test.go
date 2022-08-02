@@ -3,7 +3,7 @@ package conf
 import "testing"
 
 func TestGetConfiguration(t *testing.T) {
-	got, _ := GetConfiguration("../config.json")
+	got, _ := GetConfiguration()
 	serverOut := ServerOut{
 		Name: "serverOut_",
 	}
