@@ -5,7 +5,7 @@ type ServerOut struct {
 }
 
 type Config struct {
-	ServerOut        `json:"serverout"`
-	Logsfolderpath   string `json:"logsfolderpath"`
-	Reportfolderpath string `json:"reportfolderpath"`
+	ServerOut         `json:"serverout"`
+	Logsfolderpath    string `json:"logsfolderpath"`
+	Reportsfolderpath string `json:"reportsfolderpath"`
 }

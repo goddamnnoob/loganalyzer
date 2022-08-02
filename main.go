@@ -17,7 +17,6 @@ func main() {
 		return
 	}
 	uniqueExceptions = app.UniqueExceptions(config)
-	fmt.Println(uniqueExceptions)
 	if uniqueExceptions != nil {
 		app.CreateNewReport(config, uniqueExceptions)
 	}

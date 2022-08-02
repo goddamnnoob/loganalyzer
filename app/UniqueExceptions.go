@@ -28,9 +28,8 @@ func UniqueExceptions(config *conf.Config) []exception.Exception {
 	filesInDirectory := getFilesListInFolder(logsFolderPath)
 	serverOutFilesInDirectory := getServerOutFiles(filesInDirectory)
 	for _, serverOutFilePath := range serverOutFilesInDirectory {
-		fmt.Println(serverOutFilePath)
 		batchUniqueExceptions, err := parseServerOut(&serverOutFilePath)
-		if err != nil {
+		if err == nil {
 			uniqueExceptions = append(uniqueExceptions, batchUniqueExceptions...)
 		}
 	}

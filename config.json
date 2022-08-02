@@ -3,5 +3,5 @@
         "name":"serverOut_"
     },
     "logsfolderpath":"./LOGS/",
-    "reportsfloderpath":"./report/"
+    "reportsfolderpath":"./report/"
 }
