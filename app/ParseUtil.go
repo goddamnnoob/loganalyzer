@@ -24,7 +24,7 @@ func parseServerOut(filePath *string) ([]exception.Exception, *error) {
 	for scanner.Scan() {
 		if strings.Contains(scanner.Text(), "Exception:") {
 			currentexception := exceptionPostProcessor(scanner)
-			lineIndex += 9
+			lineIndex += 19
 			if isUniqueException(currentexception) {
 				uniqueExceptions = append(uniqueExceptions, *currentexception)
 			}
@@ -42,6 +42,7 @@ func exceptionPostProcessor(scanner *bufio.Scanner) *exception.Exception {
 	exception.FirstLine = firstLine
 	exception.Time = time
 	exception.Name = name
+	exception.Count = 1
 	var first10Lines string
 	for i := 0; i < 20; i++ {
 		first10Lines += scanner.Text() + "\n"
@@ -67,9 +68,9 @@ func getExceptionName(firstline string) string {
 }
 
 func isUniqueException(exception *exception.Exception) bool {
-	for _, ex := range uniqueExceptions {
-		if strings.Compare(exception.Name, ex.Name) == 0 {
-			exception.Count++
+	for i, _ := range uniqueExceptions {
+		if strings.Compare(exception.Name, uniqueExceptions[i].Name) == 0 {
+			uniqueExceptions[i].Count += 1
 			return false
 		}
 	}
