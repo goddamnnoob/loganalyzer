@@ -11,7 +11,6 @@ import (
 func main() {
 	var uniqueExceptions []exception.Exception
 	config, err := conf.GetConfiguration()
-	fmt.Println(config)
 	if err != nil {
 		fmt.Println(err)
 		return

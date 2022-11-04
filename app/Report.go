@@ -13,7 +13,7 @@ import (
 
 func CreateNewReport(config *conf.Config, uniqueExceptions []exception.Exception) {
 	currentTime := time.Now()
-	reportFileName := "report_" + currentTime.Format("01-02-2006 15:04:05") + ".txt"
+	reportFileName := "report_" + currentTime.Format("01-02-2006") + ".txt"
 	fmt.Println(config.Reportsfolderpath)
 	reportFolderPath, err := filepath.Abs(config.Reportsfolderpath)
 	fmt.Println(reportFolderPath)
