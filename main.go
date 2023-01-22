@@ -18,5 +18,7 @@ func main() {
 	uniqueExceptions = app.UniqueExceptions(config)
 	if uniqueExceptions != nil {
 		app.CreateNewReport(config, uniqueExceptions)
+	} else {
+		fmt.Println("No Exceptions Found")
 	}
 }

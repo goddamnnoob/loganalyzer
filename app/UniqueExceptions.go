@@ -26,9 +26,16 @@ func UniqueExceptions(config *conf.Config) []exception.Exception {
 		return nil
 	}
 	filesInDirectory := getFilesListInFolder(logsFolderPath)
-	serverOutFilesInDirectory := getServerOutFiles(filesInDirectory)
+	serverOutFilesInDirectory := getLogFiles(filesInDirectory, config.ServerOut.Name)
 	for _, serverOutFilePath := range serverOutFilesInDirectory {
 		batchUniqueExceptions, err := parseServerOut(&serverOutFilePath)
+		if err == nil {
+			uniqueExceptions = append(uniqueExceptions, batchUniqueExceptions...)
+		}
+	}
+	SMIFFilesInDirectory := getLogFiles(filesInDirectory, config.SMIF.Name)
+	for _, SMIFFilePath := range SMIFFilesInDirectory {
+		batchUniqueExceptions, err := parseSMIF(&SMIFFilePath)
 		if err == nil {
 			uniqueExceptions = append(uniqueExceptions, batchUniqueExceptions...)
 		}
@@ -58,8 +65,7 @@ func getFilesListInFolder(path string) []string {
 	return filesInDirectory
 }
 
-func getServerOutFiles(filesInDirectory []string) []string {
-	serverOut := "serverOut_"
+func getLogFiles(filesInDirectory []string, serverOut string) []string {
 	var serverOutFiles []string
 	for _, f := range filesInDirectory {
 		if strings.Contains(f, serverOut) {

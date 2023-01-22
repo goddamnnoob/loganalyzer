@@ -11,16 +11,33 @@ import (
 
 var uniqueExceptions []exception.Exception
 
-func parseServerOut(filePath *string) ([]exception.Exception, *error) {
-	file, e := os.Open(*filePath)
+func parseSMIF(filepath *string) ([]exception.Exception, *error) {
 	lineIndex := 1
+	scanner, file, e := getScannerFromFilePath(filepath)
 	if e != nil {
-		fmt.Println(e)
-		return nil, &e
+		return nil, e
 	}
 	defer file.Close()
-	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		if strings.Contains("errorCodeList and errorCodeValues set in the robo: [", scanner.Text()) && !strings.Contains("errorCodeList and errorCodeValues set in the robo: []", scanner.Text()) {
+			currentexception := exceptionPostProcessor(scanner)
+			lineIndex += 19
+			if isUniqueException(currentexception) {
+				uniqueExceptions = append(uniqueExceptions, *currentexception)
+			}
+		}
+		lineIndex++
+	}
+	return uniqueExceptions, nil
+}
 
+func parseServerOut(filePath *string) ([]exception.Exception, *error) {
+	lineIndex := 1
+	scanner, file, e := getScannerFromFilePath(filePath)
+	if e != nil {
+		return nil, e
+	}
+	defer file.Close()
 	for scanner.Scan() {
 		if strings.Contains(scanner.Text(), "Exception:") {
 			currentexception := exceptionPostProcessor(scanner)
@@ -75,4 +92,14 @@ func isUniqueException(exception *exception.Exception) bool {
 		}
 	}
 	return true
+}
+
+func getScannerFromFilePath(filePath *string) (*bufio.Scanner, *os.File, *error) {
+	file, e := os.Open(*filePath)
+	if e != nil {
+		fmt.Println(e)
+		return nil, nil, &e
+	}
+	scanner := bufio.NewScanner(file)
+	return scanner, file, nil
 }

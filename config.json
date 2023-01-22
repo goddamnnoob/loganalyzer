@@ -1,7 +1,7 @@
 {
     "ServerOut":{
         "name":"serverOut_"
-    },
+    },"SMIF":{"name":"SIMFLog_"},
     "logsfolderpath":"./LOGS/",
     "reportsfolderpath":"./report/"
 }
